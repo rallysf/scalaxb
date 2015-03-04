@@ -136,9 +136,15 @@ trait Args extends Params {
       case ref: ElemRef   => toOptional(buildElement(ref))
       case _ => sys.error("buildArgForAll unsupported type: " + particle)
     }
-    val arg = buildArg(o, buildSelector(o), Some("node"), longAll)
-    if (longAll) arg + " map { " + quote(buildNodeName(o, true)) + " -> _ }"
-    else arg
+    if (isSubstitutionGroup(o)) {
+      val subs = substitutionGroupMembers(o) map { sub => buildSelector(sub) }
+      val combinedSubs = subs.mkString(" ++ ")
+      "(" + combinedSubs + ").headOption map { x => scalaxb.fromXML[scalaxb.DataRecord[Any]](x, scalaxb.ElemName(x) :: stack) }"
+    } else {
+      val arg = buildArg(o, buildSelector(o), Some("node"), longAll)
+      if (longAll) arg + " map { " + quote(buildNodeName(o, true)) + " -> _ }"
+      else arg
+    }
   }
   
   def buildArg(elem: ElemDecl, pos: Int): String =

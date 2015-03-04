@@ -1,0 +1,29 @@
+<schema targetNamespace="http://www.example.com/all"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:all="http://www.example.com/all"
+        elementFormDefault="qualified">
+
+  <element name="abstract1" type="string" abstract="true" />
+  <element name="concrete1" type="string" substitutionGroup="all:abstract1" />
+  <element name="concrete2" type="string" substitutionGroup="all:abstract1" />
+
+  <complexType name="SeqWithSubstitution">
+    <sequence>
+      <element ref="all:abstract1" minOccurs="0" maxOccurs="1" />
+    </sequence>
+  </complexType>
+
+  <complexType name="NormalAll">
+    <all>
+      <element name="field1" type="positiveInteger" />
+      <element ref="all:concrete1" />
+    </all>
+  </complexType>
+
+  <complexType name="AllWithSubstitution">
+    <all>
+      <element name="field1" type="positiveInteger" />
+      <element ref="all:abstract1" />
+    </all>
+  </complexType>
+</schema>
