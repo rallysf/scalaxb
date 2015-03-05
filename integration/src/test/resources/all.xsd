@@ -26,6 +26,25 @@
     </choice>
   </complexType>
 
+  <complexType name="complexAbstractType">
+    <sequence>
+      <element name="field1" type="string" />
+    </sequence>
+  </complexType>
+
+  <element name="complexAbstract1" type="all:complexAbstractType" abstract="true" />
+  <element name="complexConcrete1" type="all:complexAbstractType" substitutionGroup="all:complexAbstract1" />
+  <element name="complexConcrete2" type="all:complexAbstractType" substitutionGroup="all:complexAbstract1" />
+
+  <element name="ChoiceWithComplexAbstractType">
+    <complexType>
+      <choice>
+        <element ref="all:complexAbstract1" minOccurs="0" maxOccurs="unbounded" />
+        <element name="field2" type="positiveInteger" />
+      </choice>
+    </complexType>
+  </element>
+
   <complexType name="NormalAll">
     <all>
       <element name="field1" type="positiveInteger" />

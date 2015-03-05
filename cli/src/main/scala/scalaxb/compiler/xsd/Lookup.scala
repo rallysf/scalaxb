@@ -241,10 +241,10 @@ trait Lookup extends ContextProcessor {
       } filter { e: ElemDecl =>
         e.typeSymbol match {
           case ReferenceTypeSymbol(decl: ComplexTypeDecl) => !decl.abstractValue
-          case _ => !e.abstractValue
+          case _ => true
         }
       }
-    }
+    } filter { e => !e.abstractValue }
 
   // don't name targetNamespace as "targetNamespace" since this would cause problem with mixing in groups.
   def quoteNamespace(namespace: Option[String]): String =
