@@ -241,7 +241,7 @@ trait Lookup extends ContextProcessor {
       } filter { e: ElemDecl =>
         e.typeSymbol match {
           case ReferenceTypeSymbol(decl: ComplexTypeDecl) => !decl.abstractValue
-          case _ => true
+          case _ => !e.abstractValue
         }
       }
     }

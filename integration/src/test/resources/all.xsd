@@ -13,6 +13,19 @@
     </sequence>
   </complexType>
 
+  <complexType name="ChoiceSeq">
+    <choice>
+      <sequence>
+        <element name="field1" type="positiveInteger" />
+        <element name="field2" type="positiveInteger" />
+      </sequence>
+      <sequence>
+        <element ref="all:abstract1" />
+        <element name="field2" type="positiveInteger" />
+      </sequence>
+    </choice>
+  </complexType>
+
   <complexType name="NormalAll">
     <all>
       <element name="field1" type="positiveInteger" />

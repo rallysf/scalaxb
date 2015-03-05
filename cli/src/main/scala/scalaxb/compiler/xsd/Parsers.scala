@@ -250,8 +250,8 @@ trait Parsers extends Args with Params {
     def addConverter(p: String): String = if (wrapInDataRecord) "(" + p + " ^^ " + newline +
         indent(3) + buildConverter(elem.typeSymbol, occurrence) + ")"
       else p
-    
-    if (isSubstitutionGroup(elem) && !ignoreSubGroup) buildSubstitionGroupParser(elem, occurrence, mixed)
+
+    if (isSubstitutionGroup(elem) && (!ignoreSubGroup || elem.abstractValue )) buildSubstitionGroupParser(elem, occurrence, mixed)
     else elem.typeSymbol match {
       case symbol: BuiltInSimpleTypeSymbol => addConverter(buildParserString(elem, occurrence))
       case ReferenceTypeSymbol(decl: SimpleTypeDecl) =>  addConverter(buildParserString(elem, occurrence))

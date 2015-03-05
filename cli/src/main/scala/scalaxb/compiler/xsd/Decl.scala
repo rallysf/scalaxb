@@ -409,7 +409,8 @@ case class ElemDecl(namespace: Option[String],
   global: Boolean = false,
   qualified: Boolean = false,
   substitutionGroup: Option[(Option[String], String)] = None,
-  annotation: Option[AnnotationDecl] = None) extends Decl with Particle with Annotatable
+  annotation: Option[AnnotationDecl] = None,
+  abstractValue: Boolean = false) extends Decl with Particle with Annotatable
 
 object ElemDecl {
   def fromXML(node: scala.xml.Node, family: List[String], global: Boolean, config: ParserConfig) = {
@@ -449,10 +450,11 @@ object ElemDecl {
       TypeSymbolParser.splitTypeName(x.text, node.scope, config.targetNamespace) }
     val annotation = (node \ "annotation").headOption map { x =>
       AnnotationDecl.fromXML(x, config) }
-    
+    val abstractValue = (node \ "@abstract").headOption map { case x => x.text == "true" || x.text == "1" } getOrElse false
+
     val elem = ElemDecl(config.targetNamespace,
       name, typeSymbol, defaultValue, fixedValue, minOccurs, maxOccurs, nillable, global, qualified,
-      substitutionGroup, annotation)
+      substitutionGroup, annotation, abstractValue)
     config.elemList += elem
 
     (node \ "@type").headOption foreach  { _ =>
